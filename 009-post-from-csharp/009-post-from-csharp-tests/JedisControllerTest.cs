@@ -75,7 +75,7 @@ namespace _009_post_from_csharp_tests
 
             var client = app.CreateClient();
 
-            var responseMessage = await client.PostAsync("/jedis", content: data);
+            var responseMessage = await client.PostAsync("/jedis/search", content: data);
 
 
             Assert.True(responseMessage.IsSuccessStatusCode);
@@ -86,9 +86,80 @@ namespace _009_post_from_csharp_tests
             Assert.Equal(2, jedis.Count());
             Assert.Equal("Yoda", jedis[0]);
             Assert.Equal("Anakin Skywalker", jedis[1]);
+        }
 
 
 
+        [Fact]
+        public async Task SearchWithHttpHeaders_Via_WebApplication()
+        {
+            await using var app = new StarwarsWebApiApplication();
+
+
+            var jediFilter = new JediFilter()
+            {
+                TextToSearch = String.Empty
+            };
+
+            var dataJson = JsonSerializer.Serialize(jediFilter);
+
+            var data = new StringContent(dataJson, Encoding.UTF8, CONTENTTYPE_APPLICATION_JSON);
+
+
+            var client = app.CreateClient();
+
+            var responseMessage = await client.PostAsync("/jedis/SearchWithHttpHeaders", content: data);
+
+
+            Assert.True(responseMessage.IsSuccessStatusCode);
+
+            var stream = await responseMessage.Content.ReadAsStringAsync();
+            var jedis = JsonSerializer.Deserialize<List<Jedi>>(stream);
+
+            Assert.Equal(3, jedis.Count());
+            Assert.Equal("Header > Content-Type=application/json; charset=utf-8", jedis[0].Name);
+            Assert.Equal("Header > Content-Length=19", jedis[1].Name);
+            Assert.Equal("Header > Host=localhost", jedis[2].Name);
+        }
+
+
+        [Fact]
+        public async Task SearchWithHttpHeaders_Via_WebApplication_WithCustomHttpHeader()
+        {
+            await using var app = new StarwarsWebApiApplication();
+
+
+            var jediFilter = new JediFilter()
+            {
+                TextToSearch = "X-CustomHeader"
+            };
+
+            var dataJson = JsonSerializer.Serialize(jediFilter);
+
+            var data = new StringContent(dataJson, Encoding.UTF8, CONTENTTYPE_APPLICATION_JSON);
+
+
+            var client = app.CreateClient();
+
+            //Add Custom Hader
+            client.DefaultRequestHeaders
+                  .Add("X-CustomHeader-1", "kAw4dhLDTHY8HvEZWZmv7k6/PHw=");
+
+            client.DefaultRequestHeaders
+                  .Add("X-CustomHeader-2", "0123456789-abcdefghijklmnoprrstuvwxyz");
+
+
+            var responseMessage = await client.PostAsync("/jedis/SearchWithHttpHeaders", content: data);
+
+
+            Assert.True(responseMessage.IsSuccessStatusCode);
+
+            var stream = await responseMessage.Content.ReadAsStringAsync();
+            var jedis = JsonSerializer.Deserialize<List<Jedi>>(stream);
+
+            Assert.Equal(2, jedis.Count());
+            Assert.Equal("Header > X-CustomHeader-1=kAw4dhLDTHY8HvEZWZmv7k6/PHw=", jedis[0].Name);
+            Assert.Equal("Header > X-CustomHeader-2=0123456789-abcdefghijklmnoprrstuvwxyz", jedis[1].Name);
         }
     }
 }

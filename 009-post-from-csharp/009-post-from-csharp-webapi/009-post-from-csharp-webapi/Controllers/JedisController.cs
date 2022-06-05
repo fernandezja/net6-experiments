@@ -19,7 +19,8 @@ namespace _009_post_from_csharp_webapi.Controllers
             _logger = logger;
         }
 
-        [HttpPost(Name = "Search")]
+        [HttpPost]
+        [Route("search")]
         //public IResult Search(JediFilter jediFilter) but is not easy to test IResult
         public IEnumerable<string> Search(JediFilter jediFilter)
         {
@@ -31,6 +32,37 @@ namespace _009_post_from_csharp_webapi.Controllers
             var query = from j in JEDIS
                         where j.Contains(jediFilter.TextToSearch, StringComparison.InvariantCultureIgnoreCase)
                         select j;
+
+
+            return query.ToArray(); //Results.Ok(query.ToArray());
+        }
+
+
+        [HttpPost]
+        [Route("SearchWithHttpHeaders")]
+        //public IResult Search(JediFilter jediFilter) but is not easy to test IResult
+        public IEnumerable<Jedi> SearchWithHttpHeaders(JediFilter jediFilter)
+        {
+            if (jediFilter == null)
+            {
+                return null; //Results.BadRequest();
+            }
+
+            var jedis = new List<Jedi>();
+            var index = 1;
+
+            foreach (var header in Request.Headers)
+            {
+                jedis.Add(new Jedi() { 
+                    JediId = index++,
+                    Name = $"Header > {header.Key}={header.Value}"
+                });
+            }
+
+            var query = from j in jedis
+                        where j.Name.Contains(jediFilter.TextToSearch, StringComparison.InvariantCultureIgnoreCase)
+                        select j;
+
 
             return query.ToArray(); //Results.Ok(query.ToArray());
         }
