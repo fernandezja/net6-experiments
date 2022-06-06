@@ -33,6 +33,11 @@ namespace Starwars.Core.ServiceClient
             httpClient.DefaultRequestHeaders
                   .Add("X-CustomHeader-2", "0123456789-abcdefghijklmnoprrstuvwxyz");
 
+            httpClient.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(
+                                    scheme: "Basic",
+                                    parameter: "kAw4dhLDTHY8HvEZWZmv7k6/PHw=");
+
 
             var dataJson = JsonSerializer.Serialize(jediFilter);
             
@@ -41,8 +46,6 @@ namespace Starwars.Core.ServiceClient
             var responseMessage = await httpClient.PostAsync(API_JEDI_SEARCH_URL,
                                                                 data,
                                                                 cancellationToken);
-
-
 
             
             if (responseMessage.IsSuccessStatusCode)
@@ -98,6 +101,10 @@ namespace Starwars.Core.ServiceClient
                   .Add("X-CustomHeader-2", "0123456789-abcdefghijklmnoprrstuvwxyz");
 
 
+            request.Headers.Authorization = 
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(
+                                    scheme:"Basic", 
+                                    parameter: "kAw4dhLDTHY8HvEZWZmv7k6/PHw=");
 
             var responseMessage = await httpClient.SendAsync(request,
                                                                 cancellationToken);
@@ -144,6 +151,10 @@ namespace Starwars.Core.ServiceClient
                   .Add("X-CustomHeader-2", "0123456789-abcdefghijklmnoprrstuvwxyz");
 
 
+            request.Headers.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(
+                                    scheme: "Basic",
+                                    parameter: "kAw4dhLDTHY8HvEZWZmv7k6/PHw=");
 
             var responseMessage = await httpClient.SendAsync(request,
                                                                 cancellationToken);

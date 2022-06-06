@@ -74,5 +74,27 @@ namespace Starwars.Core.ServiceClient.Tests
 
 
         }
+
+
+        [Fact]
+        public async Task SearchWithHttpHeadersUseSendAsync_VerifyAuthorizationHeader_Test()
+        {
+            var client = new StarwarsServiceClient();
+
+            var jediFilter = new JediFilter()
+            {
+                TextToSearch = "Authorization"
+            };
+
+            var result = await client.SearchWithHttpHeadersUseSendAsync(jediFilter);
+
+            Assert.NotNull(result);
+
+            var jedis = result.ToList();
+
+            Assert.Single(jedis);
+            Assert.Equal("Header > Authorization=Basic kAw4dhLDTHY8HvEZWZmv7k6/PHw=", jedis[0].Name);
+
+        }
     }
 }
