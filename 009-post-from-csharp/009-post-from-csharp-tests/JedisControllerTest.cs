@@ -44,12 +44,13 @@ namespace _009_post_from_csharp_tests
             var result = jediController.Search(jediFilter);
 
             Assert.NotNull(result);
-            Assert.IsType<string[]>(result);
+            Assert.IsType<List<Jedi>>(result);
 
-            var jedis = (string[])result;
+            var jedis = result.ToList();
+
             Assert.Equal(2, jedis.Count());
-            Assert.Equal("Yoda", jedis[0]);
-            Assert.Equal("Anakin Skywalker", jedis[1]);
+            Assert.Equal("Yoda", jedis[0].Name);
+            Assert.Equal("Anakin Skywalker", jedis[1].Name);
 
 
 
@@ -81,11 +82,11 @@ namespace _009_post_from_csharp_tests
             Assert.True(responseMessage.IsSuccessStatusCode);
 
             var stream = await responseMessage.Content.ReadAsStringAsync();
-            var jedis = JsonSerializer.Deserialize<string[]>(stream);
+            var jedis = JsonSerializer.Deserialize<List<Jedi>>(stream);
 
             Assert.Equal(2, jedis.Count());
-            Assert.Equal("Yoda", jedis[0]);
-            Assert.Equal("Anakin Skywalker", jedis[1]);
+            Assert.Equal("Yoda", jedis[0].Name);
+            Assert.Equal("Anakin Skywalker", jedis[1].Name);
         }
 
 

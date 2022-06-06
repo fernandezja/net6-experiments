@@ -7,10 +7,18 @@ namespace _009_post_from_csharp_webapi.Controllers
     [Route("[controller]")]
     public class JedisController : ControllerBase
     {
-        private static readonly string[] JEDIS = new[]
+        private static readonly List<Jedi> JEDIS = new()
         {
-            "Yoda", "Mace Windu", "Qui-Gon Jinn", "Obi-Wan Kenobi", "Anakin Skywalker", "Ahsoka Tano", "Mace Windu"
+            new Jedi(1, "Yoda"),
+            new Jedi(2, "Mace Windu"),
+            new Jedi(3, "Qui-Gon Jinn"),
+            new Jedi(4, "Obi-Wan Kenobi"),
+            new Jedi(5, "Anakin Skywalker"),
+            new Jedi(6, "Ahsoka Tano"),
+            new Jedi(7, "Mace Windu")
         };
+
+
 
         private readonly ILogger<JedisController> _logger;
 
@@ -22,7 +30,7 @@ namespace _009_post_from_csharp_webapi.Controllers
         [HttpPost]
         [Route("search")]
         //public IResult Search(JediFilter jediFilter) but is not easy to test IResult
-        public IEnumerable<string> Search(JediFilter jediFilter)
+        public IEnumerable<Jedi> Search(JediFilter jediFilter)
         {
             if (jediFilter == null)
             {
@@ -30,11 +38,11 @@ namespace _009_post_from_csharp_webapi.Controllers
             }
 
             var query = from j in JEDIS
-                        where j.Contains(jediFilter.TextToSearch, StringComparison.InvariantCultureIgnoreCase)
+                        where j.Name.Contains(jediFilter.TextToSearch, StringComparison.InvariantCultureIgnoreCase)
                         select j;
 
 
-            return query.ToArray(); //Results.Ok(query.ToArray());
+            return query.ToList(); //Results.Ok(query.ToArray());
         }
 
 

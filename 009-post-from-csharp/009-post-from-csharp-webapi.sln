@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32519.111
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "009-post-from-csharp-webapi", "009-post-from-csharp-webapi\009-post-from-csharp-webapi\009-post-from-csharp-webapi.csproj", "{B4EF26DD-C5D5-4E74-A3FA-E7ECC253FCE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "009-post-from-csharp-webapi", "009-post-from-csharp-webapi\009-post-from-csharp-webapi\009-post-from-csharp-webapi.csproj", "{B4EF26DD-C5D5-4E74-A3FA-E7ECC253FCE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "009-post-from-csharp-tests", "009-post-from-csharp-tests\009-post-from-csharp-tests.csproj", "{C3FD6E7A-8DD0-496F-B5EA-9C5B5F3D633B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "009-post-from-csharp-tests", "009-post-from-csharp-tests\009-post-from-csharp-tests.csproj", "{C3FD6E7A-8DD0-496F-B5EA-9C5B5F3D633B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starwars.Core.Entities", "Starwars.Core.Entities\Starwars.Core.Entities.csproj", "{2D1A0546-DBE7-43E4-A625-DADC3CC8E9E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starwars.Core.Entities", "Starwars.Core.Entities\Starwars.Core.Entities.csproj", "{2D1A0546-DBE7-43E4-A625-DADC3CC8E9E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starwars.Core.ServiceClient", "Starwars.Core.ServiceClient\Starwars.Core.ServiceClient.csproj", "{32D1C60F-1403-45B7-93D3-9C31EF63244D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starwars.Core.ServiceClient", "Starwars.Core.ServiceClient\Starwars.Core.ServiceClient.csproj", "{32D1C60F-1403-45B7-93D3-9C31EF63244D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starwars.Core.ServiceClient.Tests", "Starwars.Core.ServiceClient.Tests\Starwars.Core.ServiceClient.Tests.csproj", "{B1F001DC-138D-43EF-A5B9-36A702A0D1C5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0A98F189-3B51-41E1-9BC5-B83D81F0E825}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +37,17 @@ Global
 		{32D1C60F-1403-45B7-93D3-9C31EF63244D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32D1C60F-1403-45B7-93D3-9C31EF63244D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32D1C60F-1403-45B7-93D3-9C31EF63244D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1F001DC-138D-43EF-A5B9-36A702A0D1C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1F001DC-138D-43EF-A5B9-36A702A0D1C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1F001DC-138D-43EF-A5B9-36A702A0D1C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1F001DC-138D-43EF-A5B9-36A702A0D1C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C3FD6E7A-8DD0-496F-B5EA-9C5B5F3D633B} = {0A98F189-3B51-41E1-9BC5-B83D81F0E825}
+		{B1F001DC-138D-43EF-A5B9-36A702A0D1C5} = {0A98F189-3B51-41E1-9BC5-B83D81F0E825}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F6A1766-10AB-4D79-81C2-32FAFA25BBBD}

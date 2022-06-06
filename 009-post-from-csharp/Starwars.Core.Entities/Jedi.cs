@@ -9,5 +9,16 @@ namespace Starwars.Core.Entities
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        public Jedi()
+        {
+
+        }
+
+        public Jedi(int id, string name)
+        {
+            JediId = id;
+            Name = name;
+        }
     }
 }
