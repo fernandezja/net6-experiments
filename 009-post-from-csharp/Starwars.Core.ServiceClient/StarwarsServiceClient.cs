@@ -1,4 +1,5 @@
 ﻿using Starwars.Core.Entities;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -172,5 +173,69 @@ namespace Starwars.Core.ServiceClient
         }
 
 
+        public async Task<IEnumerable<Jedi>> SearchUseSendCCreateHttpRequestMessageAsync(JediFilter jediFilter,
+                                                      CancellationToken cancellationToken = default)
+        {
+
+            var httpClient = HttpClientFactory.Create();
+            httpClient.BaseAddress = BaseAddress;
+
+
+            var dataJson = JsonSerializer.Serialize(jediFilter);
+
+            var data = new StringContent(dataJson, Encoding.UTF8, CONTENTTYPE_APPLICATION_JSON);
+
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(string.Concat(DEFAULT_BASEADDRESS, API_JEDI_SEARCH_WITHHTTPHEADERS_URL)),
+                Headers =
+                    {
+                        { "X-CustomHeader-1", "kAw4dhLDTHY8HvEZWZmv7k6/PHw=" },
+                        { "X-CustomHeader-2", "0123456789-abcdefghijklmnoprrstuvwxyz" },
+                        //{ "Content-Type", "application/json" },
+                        { "account", "123" },
+                        { "apiKey", "123" },
+                        { "token", "123" }
+                    },
+                Content = new StringContent(dataJson, Encoding.UTF8, "application/json")
+                {
+                    Headers =
+                    {
+                        ContentType = new MediaTypeHeaderValue("application/json")
+                    }
+                }
+            };
+
+            
+
+            ////Add Custom Hader
+            //request.Headers
+            //      .Add("X-CustomHeader-1", "kAw4dhLDTHY8HvEZWZmv7k6/PHw=");
+
+            //request.Headers
+            //      .Add("X-CustomHeader-2", "0123456789-abcdefghijklmnoprrstuvwxyz");
+
+
+            //request.Headers.Authorization =
+            //        new System.Net.Http.Headers.AuthenticationHeaderValue(
+            //                        scheme: "Basic",
+            //                        parameter: "kAw4dhLDTHY8HvEZWZmv7k6/PHw=");
+
+            var responseMessage = await httpClient.SendAsync(request,
+                                                                cancellationToken);
+
+
+
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var stream = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+                return JsonSerializer.Deserialize<IEnumerable<Jedi>>(stream);
+            }
+
+            return null;
+        }
     }
 }

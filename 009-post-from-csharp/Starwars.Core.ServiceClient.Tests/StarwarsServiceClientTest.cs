@@ -96,5 +96,31 @@ namespace Starwars.Core.ServiceClient.Tests
             Assert.Equal("Header > Authorization=Basic kAw4dhLDTHY8HvEZWZmv7k6/PHw=", jedis[0].Name);
 
         }
+
+
+        [Fact]
+        public async Task SearchUseSendCCreateHttpRequestMessageAsync_VerifyCustomHeader_Test()
+        {
+            var client = new StarwarsServiceClient();
+
+            var jediFilter = new JediFilter()
+            {
+                TextToSearch = "Content"
+            };
+
+            var result = await client.SearchUseSendCCreateHttpRequestMessageAsync(jediFilter);
+
+            Assert.NotNull(result);
+
+            var jedis = result.ToList();
+
+            Assert.Equal(2, jedis.Count());
+            Assert.Equal("Header > X-CustomHeader-1=kAw4dhLDTHY8HvEZWZmv7k6/PHw=", jedis[0].Name);
+            Assert.Equal("Header > X-CustomHeader-2=0123456789-abcdefghijklmnoprrstuvwxyz", jedis[1].Name);
+
+        }
+
+
+        
     }
 }
