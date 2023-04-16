@@ -1,23 +1,25 @@
 
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (builder.Environment.IsDevelopment())
+
+var webSocketOptions = new WebSocketOptions
 {
-    app.UseDeveloperExceptionPage();
-}
+    KeepAliveInterval = TimeSpan.FromMinutes(2)
+};
 
-app.UseHttpsRedirection();
+app.UseWebSockets(webSocketOptions);
 
-app.UseAuthorization();
 
-app.UseWebSockets();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
 
