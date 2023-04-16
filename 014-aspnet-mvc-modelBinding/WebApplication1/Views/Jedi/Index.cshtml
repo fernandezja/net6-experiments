@@ -1,0 +1,28 @@
+﻿@model List<WebApplication1.Entities.Jedi>
+@{
+    ViewData["Title"] = "Jedis";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Jedis</h1>
+</div>
+
+@if (Model == null || Model.Any())
+{
+    <h3>Jedis is empty</h3>
+}
+else
+{
+    <ul>
+        @foreach (var jedi in Model)
+        {
+            <li>
+                <strong>[@jedi.Id] @jedi.Name</strong> <br />
+                <span class="text-muted">@jedi.Description</span>
+            </li>
+        }
+        
+    </ul>
+}
+
+
